@@ -1,4 +1,5 @@
 from flask import Flask, request, send_file, jsonify
+from flask_cors import CORS
 import numpy as np
 import json
 import matplotlib
@@ -9,7 +10,7 @@ import tempfile
 import os
 
 app = Flask(__name__)
-
+CORS(app)
 @app.route('/simulate', methods=['POST'])
 def simulate_lens():
     try:
