@@ -15,6 +15,8 @@ CORS(app)
 def simulate_lens():
     try:
         surfaces = request.json
+        print("✅ Received JSON:")
+        print(surfaces)
 
         lens = optic.Optic()
         lens.add_surface(index=0, thickness=np.inf)
@@ -34,6 +36,7 @@ def simulate_lens():
             if "coefficients" in surf:
                 kwargs["coefficients"] = surf["coefficients"]
 
+            print(f"🔧 Adding surface {i} with:", kwargs)
             lens.add_surface(**kwargs)
 
         lens.add_surface(index=len(surfaces)+1, is_stop=True)
@@ -53,10 +56,14 @@ def simulate_lens():
         plt.savefig(temp_file.name, dpi=300)
         plt.close()
 
+        print("✅ Simulation image generated")
+
         return send_file(temp_file.name, mimetype='image/png')
 
     except Exception as e:
+        print("❌ Exception occurred:", str(e))
         return jsonify({"error": str(e)}), 500
+
 
 if __name__ == "__main__":
     import os
