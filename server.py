@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from optiland import optic
 import tempfile
 import os
+import traceback
 
 app = Flask(__name__)
 CORS(app)
@@ -59,10 +60,12 @@ def simulate_lens():
         print("✅ Simulation image generated")
 
         return send_file(temp_file.name, mimetype='image/png')
-
     except Exception as e:
-        print("❌ Exception occurred:", str(e))
+        print("❌ Exception occurred:")
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
+
+
 
 
 if __name__ == "__main__":
