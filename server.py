@@ -23,6 +23,9 @@ def simulate_lens():
         lens.add_surface(index=0, thickness=np.inf)
 
         for i, surf in enumerate(surfaces, start=1):
+            if "radius" not in surf:
+                print(f"❌ Surface {i} missing 'radius':", surf)
+                raise ValueError(f"Surface {i} missing 'radius' key")
             kwargs = {
                 "index": i,
                 "radius": surf["radius"],
